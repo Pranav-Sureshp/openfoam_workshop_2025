@@ -1,1 +1,1 @@
-# openfoam_worksop_2025
+# openfoam_workshop_2025
