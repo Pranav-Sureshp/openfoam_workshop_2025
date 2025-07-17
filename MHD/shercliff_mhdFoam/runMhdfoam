@@ -1,0 +1,17 @@
+#!/bin/bash
+ulimit -s unlimited
+
+cores=8  #4
+solver=mhdFoam # cEpotmhdEpotMultiRegionFoam
+source ~/.openfoam_v2306_profile
+
+blockMesh 2>&1 | tee log.blockMesh
+if [[ ! $cores -eq 1 ]]
+then
+	decomposePar 2>&1 | tee log.decomposePar
+        /usr/bin/mpirun -np $cores $solver -parallel  2>&1 | tee log.$solver
+else
+	$solver 2>&1 | tee log.$solver
+fi
+
+touch foam.foam
